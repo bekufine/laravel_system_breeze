@@ -1,0 +1,6 @@
+{
+    "require-dev": {
+        "laravel/breeze": "^2.3",
+        "barryvdh/laravel-debugbar": "^3.16"
+    }
+}
