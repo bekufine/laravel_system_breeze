@@ -58,7 +58,7 @@
     
     <td class="border border-gray-700 p-2">
         @if (isChangable($order->event_date))
-            <a href="{{ route("order.change", ["id"=>$order->id])}}" class="button text-red-500 cursor-pointer">🔄</a>
+            <a href="{{ route("order.update", ["id"=>$order->id])}}" class="button text-red-500 cursor-pointer">🔄</a>
         @endif
     </td>
 
@@ -118,9 +118,9 @@
         $orderWeekday = (int)$today->format('w');
         $daysToNextWed = (3 - $orderWeekday + 7) % 7;
         if ($daysToNextWed === 0) $daysToNextWed = 7;
-        $daysToNextWed+=1;
+        $daysToNextWed+=8;
         $formatted = (clone $today)->modify("+{$daysToNextWed} days");
-        $formatted =$formatted->format("Y/m/d");
+        $formatted =$formatted->format("Y-m-d");
     @endphp
     <tr id="{{$id}}">
         {{-- <input type="hidden" name="orders[0][hotel_id]" value="{{ auth()->user()->hotel_id }}">

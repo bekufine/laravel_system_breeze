@@ -19,7 +19,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/order', [OrderController::class, 'page'])->name('order.create');
     Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
     Route::get('/history', [OrderController::class, 'history'])->name('order.history');
-    Route::get('/orders/{id}/update', [OrderController::class, 'changeOrder'])->name('order.change');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::patch('/orders/{id}', [OrderController::class, 'update'])->name('order.update');
 });
 
 require __DIR__.'/auth.php';

@@ -167,7 +167,22 @@ document.getElementById('previewBtn').addEventListener('click', () => {
 document.getElementById('cancelPreview').addEventListener('click', () => modal.close());
 document.getElementById('confirmSubmit').addEventListener('click', () => form.submit());
 
-    //-----------
+window.onload = function dateToOrderFrom() {
+        const today = new Date();
+        const orderWeekday = today.getDay(); 
+        let daysToNextWed = (3 - orderWeekday + 7) % 7;
+        if (daysToNextWed === 0) daysToNextWed = 7;
+        daysToNextWed += 8; 
+
+        const formattedDate = new Date(today.getTime() + daysToNextWed * 24 * 60 * 60 * 1000);
+
+        const formatted =
+        formattedDate.getFullYear() + '-' +
+        String(formattedDate.getMonth() + 1).padStart(2, '0') + '-' +
+        String(formattedDate.getDate()).padStart(2, '0');
+        window.formattedDate = formatted;
+};
+
 
     function updateRow(){
         for (let i = 0; i < 11; i++) {
@@ -186,7 +201,7 @@ document.getElementById('confirmSubmit').addEventListener('click', () => form.su
         newElement.innerHTML = `
         
         <td class="border border-gray-700 p-2">
-            <input name="orders[${latest}][event_date]" type="date" value="{{ $formatted }}" class="w-full border-0" min="{{ $formatted }}" required/>
+            <input name="orders[${latest}][event_date]" type="date" value="${formattedDate }" class="w-full border-0" min="${ formattedDate }" required/>
             </td>
         <td class="border border-gray-700 p-2">
             <input name="orders[${latest}][work_start_time]"  type="time"  class="w-auto border-0" required/>

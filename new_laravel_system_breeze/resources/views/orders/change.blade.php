@@ -9,11 +9,26 @@
             {{ __('Change order') }}
         </h2>
     </x-slot>
+    @if (session('success'))
+        <div class="absolute top-[6%] left-[45%] p-4 bg-[#F0EDED] rounded-lg ">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if($errors->any())
+        <div class="absolute top-[6%] left-[45%] p-4 bg-[#F0EDED] rounded-lg ">
+
+            <p> Order is not updated<br>Please try again ❌</p>
+        </div>
+    @endif
+    {{-- <div class="absolute top-[6%] left-[45%] p-4 bg-[#F0EDED] rounded-lg " >
+        <p>Order is updated! ✅ </p>
+    </div> --}}
     <div class="py-12" >
         <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <form  class="border-b border-white/10 pb-12" action="{{ route('order.store') }}" method="POST">
+                <form  class="border-b border-white/10 pb-12" action="{{ route('order.update' , ['id' => $order->id]) }}" method="POST">
                     @csrf
+                    @method('PATCH')
                     <table class="table-fixed w-full border border-gray-700 text-center">
                         <thead>
                         <tr class="bg-gray-800 text-white">
@@ -58,6 +73,9 @@
                         </tbody>
                     </table>
                     <div class="flex justify-center w-full">
+                        <a href="{{route("order.history")}}">
+                            <button type="button" class="btn btn-primary bg-gray-800 p-2 rounded-md w-40 mt-7 text-white cursor-pointe mx-10"> Cancel </button>
+                        </a>
                         <button type="submit" class="btn btn-primary bg-[#43d175] p-2 rounded-md w-40 mt-7 cursor-pointer"> Change Order</button>
                     </div>
                 </form>
