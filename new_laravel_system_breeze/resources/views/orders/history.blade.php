@@ -45,6 +45,9 @@
                             <th class="border border-gray-700 w-1/10 p-2">
                             <label class="block text-base/7 font-semibold text-white">Comments</label>
                             </th>
+                            <th class="border border-gray-700 w-1/10 p-2">
+                                <label class="block text-base/7 font-semibold text-white">Event style</label>
+                            </th>
                             <th class="border border-gray-700 w-15 p-2"></th>
                         </tr>
                         </thead>

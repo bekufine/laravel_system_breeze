@@ -49,7 +49,10 @@
                             <label class="block text-base/7 font-semibold text-white">Position</label>
                             </th>
                             <th class="border border-gray-700 w-1/10 p-2">
-                            <label class="block text-base/7 font-semibold text-white">Comments</label>
+                                <label class="block text-base/7 font-semibold text-white">Comments</label>
+                            </th>
+                            <th class="border border-gray-700 w-1/10 p-2">
+                                <label class="block text-base/7 font-semibold text-white">Event style</label>
                             </th>
                             <th class="border border-gray-700 w-15 p-2"></th>
                         </tr>
@@ -108,8 +111,8 @@
     const preview = document.getElementById('previewContent');
 
 document.getElementById('previewBtn').addEventListener('click', () => {
-  const data = new FormData(form);
-  
+  const formData = new FormData(form);
+
   let html = `<table class="border rounded-lg table-fixed w-full border-gray-700 text-center"> <thead>
                         <tr class="bg-gray-800 text-white">
                             <th class="border border-gray-700 w-1/10 p-2">
@@ -145,23 +148,46 @@ document.getElementById('previewBtn').addEventListener('click', () => {
                             <th class="border border-gray-700 w-1/10 p-2">
                             <label class="block text-base/7 font-semibold text-white">Comments</label>
                             </th>
+                            <th class="border border-gray-700 w-1/10 p-2">
+                                <label class="block text-base/7 font-semibold text-white">Event style</label>
+                            </th>   
                         </tr>`;
 
-//   for (const [key, value] of data.entries() ) {
-//     console.log(key);
-//     console.log(value);
-//     html += `
-//     <td class="border border-gray-700 p-2">
-//             <label> ${value || '<em>не заполнено</em>'}" </label>
-//     </td>`;
-//     // html += `<li><strong>${key}</strong>: ${value || '<em>не заполнено</em>'}</li>`;
-//   }
+    const skipKeys = ["_token"];
+    const temporaryVariable= [];
 
-//     for (const [key, value] of data.entries() )
-//     console(data.entries()[i]);
-//   }
-  preview.innerHTML = html;
-  modal.showModal();
+        for (const [key, value] of formData.entries()) {
+            const match = key.match(/^orders\[(\d+)\]\[(.+)\]$/);
+            if (!match) continue;
+
+            const index = parseInt(match[1], 10);
+            const field = match[2];
+
+            if (!temporaryVariable[index]) temporaryVariable[index] = {};
+            temporaryVariable[index][field] = value;
+        }
+
+    const orders = temporaryVariable.filter(Boolean);
+    // console.log(orders);
+    // console.log(orders["length"]);
+    const ordersLength = Object.keys(orders).length;
+    for(let i = 0; i< ordersLength; i++){
+        html+='<tr>'
+        for (const [key, value] of Object.entries(orders[i])) {
+            console.log(key, value);
+            if (["hotel_id", "coor_id", "dep_id"].includes(key)) {
+                continue;
+            }
+            html += `
+            <td class="border border-gray-700 p-2">
+                    <p> ${value} </p>
+            </td>`;
+        }
+        html+='</tr>'
+    }
+    
+    preview.innerHTML = html;
+    modal.showModal();
 });
 
 document.getElementById('cancelPreview').addEventListener('click', () => modal.close());
@@ -231,8 +257,10 @@ window.onload = function dateToOrderFrom() {
             <input name="orders[${latest}][position]"  type="text" class="w-full border-0" required/>
         </td>
         <td class="border border-gray-700 p-2">
-            <input name="orders[${latest}][comments]
-            "  type="text" class="w-full border-0" />
+            <input name="orders[${latest}][comments]"  type="text" class="w-full border-0" />
+        <input type="hidden" name="orders[${latest}][hotel_id]" value="{{ auth()->user()->hotel_id }}">
+        <td class="border border-gray-700 p-2">
+            <input name="orders[${latest}][event_style]"  type="text" class="w-full border-0" />
         <input type="hidden" name="orders[${latest}][hotel_id]" value="{{ auth()->user()->hotel_id }}">
 
         <input type="hidden" name="orders[${latest}][dep_id]" value="{{ auth()->user()->dep_id }}">
@@ -241,6 +269,7 @@ window.onload = function dateToOrderFrom() {
         </td>
         <td class="border border-gray-700 p-2">
             <button type="button" onclick="deleteRow(${latest})" class="text-red-500 cursor-pointer">削除</button>
+            <button type="button" onclick="copyRow(${latest})" class="ml-7 border py-1 p-3 rounded-lg bg- text-blue-500 cursor-pointer">+</button>
         </td>`;
         tBody.appendChild(newElement);
     }

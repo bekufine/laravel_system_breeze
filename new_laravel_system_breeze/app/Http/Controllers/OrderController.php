@@ -40,7 +40,8 @@ class OrderController extends Controller
             'orders.*.duty_content'     => 'required|string',
             'orders.*.venue_name'       => 'required|string',
             'orders.*.position'         => 'required|string',
-            'orders.*.comments'         => 'nullable|string'
+            'orders.*.comments'         => 'nullable|string',
+            'orders.*.event_style'      => 'nullable|string'
 
         ]); 
         foreach($validated["orders"] as $orderRow){
@@ -67,7 +68,8 @@ class OrderController extends Controller
             'orders.*.duty_content'     => 'required|string',
             'orders.*.venue_name'       => 'required|string',
             'orders.*.position'         => 'required|string',
-            'orders.*.comments'         => 'nullable|string'
+            'orders.*.comments'         => 'nullable|string',
+            'orders.*.event_style'      => 'nullable|string'
         ]);
         
         $order = Order::findOrFail($id);
@@ -85,10 +87,11 @@ class OrderController extends Controller
             'duty_content'=> $data["duty_content"],
             'venue_name'=> $data["venue_name"],
             'position'=> $data["position"],
-            'comments'=> $data["comments"]
+            'comments'=> $data["comments"],
+            'event_style'=> $data["event_style"]
         ]);
         return redirect(route("order.show", ["id"=>$id]))
-        ->with('success', 'Order is updated ✅!');;
+        ->with('success', 'Order is updated ✅!');
     }
 
     //show record
