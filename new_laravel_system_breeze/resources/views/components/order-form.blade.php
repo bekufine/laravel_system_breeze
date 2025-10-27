@@ -176,13 +176,13 @@
             <input name="orders[0][comments]"  id="input10" type="text" class="w-full border-0" />
         </td>
         <td class="border border-gray-700 p-2">
-            <input name="orders[0][event_style]"  id="input10" type="text" class="w-full border-0"/>
+            <input name="orders[0][event_style]"  id="input11" type="text" class="w-full border-0"/>
         </td>
-        <input type="hidden" name="orders[0][hotel_id]" id="input11" value="{{ auth()->user()->hotel_id }}">
+        <input type="hidden" name="orders[0][hotel_id]" id="input12" value="{{ auth()->user()->hotel_id }}">
 
-        <input type="hidden" name="orders[0][dep_id]" id="input12" value="{{ auth()->user()->dep_id }}">
+        <input type="hidden" name="orders[0][dep_id]" id="input13" value="{{ auth()->user()->dep_id }}">
 
-        <input type="hidden" name="orders[0][coor_id]" id="input13" value="{{ auth()->user()->coor_id }}">
+        <input type="hidden" name="orders[0][coor_id]" id="input14" value="{{ auth()->user()->coor_id }}">
         <td class="border border-gray-700 p-2">
             <button type="button" onclick="updateRow()" class="text-red-500 cursor-pointer">削除</button>
             <button type="button" onclick="copyRow({{$id}})" class="ml-7 border py-1 p-3 rounded-lg bg- text-blue-500 cursor-pointer">+</button>
